@@ -1,5 +1,5 @@
 
-# Redshift ETL Framework for Data Lakes and Data Warehouses
+# Redshift ETL Framework for Data Lakes and Warehouses
 
 A lightweight and config driven ETL (extract, transform, load) framework to perform ETL, ELT and ELTL operations on data lakes using Amazon Redshift
 
