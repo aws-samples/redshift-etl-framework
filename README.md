@@ -202,7 +202,7 @@ To use specified columns in the merge add this config item :
 
 ## FAQ
 
-### Can I use the framework if my target table is an Redshift table not a data lake table?
+### Can I use the framework if my target table is a Redshift table not a data lake table?
 
 Yes you can. To do that ; 
 - Set your target schema to internal schema
