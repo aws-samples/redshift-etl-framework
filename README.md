@@ -134,7 +134,7 @@ Config parameter is a json string which contains a set of parameters and their v
 
 #### Notes :
  
-> (*) Optional if there is an entry in **etl.config** table for them, otherwise it is required
+> (*) Optional if there is an entry in **etl.config** table for it, otherwise it is required
 > <br>(**) Default value
 > <br>(1) Default value is <target_table_name>_delta
 > <br>(1) Default value is <target_table_name>_stg
