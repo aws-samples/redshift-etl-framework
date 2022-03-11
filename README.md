@@ -135,9 +135,9 @@ Config parameter is a json string which contains a set of parameters and their v
 #### Notes :
  
 > (*) These parameters are optional if there is an entry added into **etl.config** table for them, otherwise they are required. 
-> (**) Default value
-> (1) Default value is <target_table_name>_delta
-> (1) Default value is <target_table_name>_stg
+> <br>(**) Default value
+> <br>(1) Default value is <target_table_name>_delta
+> <br>(1) Default value is <target_table_name>_stg
 
 ## Config Examples for Merge and Load (write back to data lake) 
 
