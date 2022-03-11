@@ -66,18 +66,18 @@ Config parameter is a json string which contains a set of parameters and their v
 }
 ```
 
-| Key    |Sub Key| Description                                                          | Type         | Default |
-|--------|---|----------------------------------------------------------------------|--------------|---------|
+| Key    |Sub Key| Description                                                          | Type|
+|--------|---|----------------------------------------------------------------------|-------------|
 ||
-| source | | A data lake table where you want to extract data                     | Required     |         |
-|        |schema_name| Redshift External schema where the source table exists               | Optional (*) |         |
-|        |table_name| Redshift External table where pointing to the source data            | Required     |         |
-|        |column_names     | The source table column names you want to extract                    | Optional     |         |
-|        |custom_where_sql | A custom WHERE clause to filter the source data when needed          | Optional     |         |
+| source | | A data lake table where you want to extract data                     | Required     |
+|        |schema_name| Redshift External schema where the source table exists               | Optional (*) |
+|        |table_name| Redshift External table where pointing to the source data            | Required     |
+|        |column_names     | The source table column names you want to extract                    | Optional     |
+|        |custom_where_sql | A custom WHERE clause to filter the source data when needed          | Optional     |
 ||
-| ingest | | A Redshift internal table to copy the source data from the datalake | Required     |         |
-|        | schema_name | Redshift internal schema where the ingest table exists               | Optional (*) |             |
-|        | table_name | Redshift internal table to ingest the data into                      | Required     |             |
+| ingest | | A Redshift internal table to copy the source data from the datalake | Required     |
+|        | schema_name | Redshift internal schema where the ingest table exists               | Optional (*) |
+|        | table_name | Redshift internal table to ingest the data into                      | Required     |
 
 #### Notes :
  
@@ -111,30 +111,33 @@ Config parameter is a json string which contains a set of parameters and their v
 ```
 
 
-| Key     | Sub Key                | Description                                                                                                                                                                                          | Type         | Default                   | Valid Values      |
-|---------|------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|--------------|---------------------------|-------------------|
+| Key     | Sub Key                | Description                                                                                                                                                                                          | Type         | Valid Values      |
+|---------|------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|--------------|-------------------|
 ||
 | target  |                        | A data lake table where you want to load the data                                                                                                                                                    |
-|         | schema_name            | Redshift external schema where the target table exists                                                                                                                                               | Optional (*) |
-|         | table_name             | Redshift external table which points the target data                                                                                                                                                 | Required     |
-|         | partition_registration | New data lake table partition registration method (**)                                                                                                                                               | Required     | msck  | msck, spectrum    |
+|         | schema_name            | Redshift external schema where the target table exists                                                                                                                                               | Optional (*) | 
+|         | table_name             | Redshift external table which points the target data                                                                                                                                                 | Required     | 
+|         | partition_registration | New data lake table partition registration method (**)                                                                                                                                               | Optional     | msck (**)<br>spectrum|
 ||
-| delta   |                        | A Redshift internal table to prepare a delta dataset to merge into staging or target table                                                                                                           |
+| delta   |                        | A Redshift internal table to prepare a delta dataset to merge into staging or target table                                                                                                           | 
 |         | schema_name            | Redshift internal schema where the delta table exists                                                                                                                                                | Optional (*) |
-|         | table_name             | Redshift internal table to store the delta data                                                                                                                                                      | Optional     | <target_table_name>_delta |
+|         | table_name             | Redshift internal table to store the delta data                                                                                                                                                      | Optional (1) |
 ||
 | staging |                        | A Redshift internal table to perform upserts using delta                                                                                                                                             |
 |         | schema_name            | Redshift internal schema where the staging table exists                                                                                                                                              | Optional (*) |
-|         | table_name             | Redshift internal table to ingest the data into                                                                                                                                                      | Optional     | <target_table_name>_stg   |
-|         | refresh_type           | How to refresh the staging data. <br>*If value = reload, the framework reloads the data from target table partitions before performing the upsert*                                                   | Optional     | | reload            |
+|         | table_name             | Redshift internal table to ingest the data into                                                                                                                                                      | Optional (2) | 
+|         | refresh_type           | How to refresh the staging data. <br>*If value = reload, the framework reloads the data from target table partitions before performing the upsert*                                                   | Optional     | reload|
 ||
 | upsert  |                        | A Redshift internal table to copy the source data from the datalake                                                                                                                                  | Required     |
-|         | type                   | How to perform the merge operation<br>- pk : *Use the primary key of the table*<br>- keys : *Use the provided columns as the merge keys*<br>- all : *truncate and repopulate the staging from delta* | Optional     |pk| pk<br>all<br>keys|
+|         | type                   | How to perform the merge operation<br>- pk : *Use the primary key of the table*<br>- keys : *Use the provided columns as the merge keys*<br>- all : *truncate and repopulate the staging from delta* | Optional     |pk (**) <br>all<br>keys|
 |         | keys                      | List of merge column names separated by comma<br>*This works only when upsert.type = keys*                                                                                                           | Optional     |
 
 #### Notes :
  
 > (*) These parameters are optional if there is an entry added into **etl.config** table for them, otherwise they are required. 
+> (**) Default value
+> (1) Default value is <target_table_name>_delta
+> (1) Default value is <target_table_name>_stg
 
 ## Config Examples for Merge and Load (write back to data lake) 
 
